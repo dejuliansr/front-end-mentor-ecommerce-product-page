@@ -82,10 +82,10 @@ const lightboxMainImg = document.getElementById('lightbox-img');
 const lightboxMainImgMobile = document.getElementById('lightbox-img-mobile');
 const lightboxThumbs = document.querySelectorAll('.lightbox-thumb');
 const productImages = [
-  'images/image-product-1.jpg',
-  'images/image-product-2.jpg',
-  'images/image-product-3.jpg',
-  'images/image-product-4.jpg'
+  'https://github.com/dejuliansr/front-end-mentor-ecommerce-product-page/blob/master/images/image-product-1.jpg?raw=true',
+  'https://github.com/dejuliansr/front-end-mentor-ecommerce-product-page/blob/master/images/image-product-2.jpg?raw=true',
+  'https://github.com/dejuliansr/front-end-mentor-ecommerce-product-page/blob/master/images/image-product-3.jpg?raw=true',
+  'https://github.com/dejuliansr/front-end-mentor-ecommerce-product-page/blob/master/images/image-product-4.jpg?raw=true'
 ];
 let currentImageIndex = 0;
 const prevBtn = document.getElementById('prev-btn');
@@ -221,14 +221,14 @@ function updateCartDetails() {
       const li = document.createElement('li');
       li.innerHTML = `
         <div class="cart-item">
-          <img src="images/image-product-1.jpg" alt="${item.name}">
+          <img src="https://github.com/dejuliansr/front-end-mentor-ecommerce-product-page/blob/master/images/image-product-1.jpg?raw=true" alt="${item.name}">
           <div class="item-details">
             <span>${item.name}</span>
             <span>$${item.price} x ${item.quantity} <span style="font-weight: 700;">$${(item.price * item.quantity).toFixed(2)}</span></span>
 
           </div>
           <button class="remove-item" onclick="removeItem('${item.name}')">
-            <img src="images/icon-delete.svg" alt="delete">
+            <img src="https://raw.githubusercontent.com/dejuliansr/front-end-mentor-ecommerce-product-page/0fc43f451abd98226bd314d4bf7f08399476c5b2/images/icon-delete.svg" alt="delete">
           </button>
         </div>
       `;
