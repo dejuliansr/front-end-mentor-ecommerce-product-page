@@ -27,7 +27,7 @@ This is a solution to the [E-commerce product page challenge on Frontend Mentor]
 
 ### Links
 
-- Live Site URL: [https://dejuliansr.github.io/front-end-mentor-eccomerce-product-page](https://dejuliansr.github.io/front-end-mentor-eccomerce-product-page)
+- Live Site URL: [https://dejuliansr.github.io/front-end-mentor-ecommerce-product-page](https://dejuliansr.github.io/front-end-mentor-ecommerce-product-page)
 
 ## My process
 
