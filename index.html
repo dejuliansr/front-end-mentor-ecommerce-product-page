@@ -29,13 +29,8 @@
         <div class="cart-container">
           <div class="cart-icon" id="cartIcon">
             <div class="cart-count" id="cart-count" style="display: none;">
-              <!-- <span ></span> -->
             </div>
             <img src="images/icon-cart.svg" alt="Cart" class="cart-icon">
-            <!-- <button class="cart-icon" onclick="toggleCart()">
-              <img src="path/to/cart-icon.svg" alt="Cart">
-              <span id="cart-count">0</span>
-            </button> -->
           </div>
           <div class="cart-dropdown" id="cartDropdown">
             <div id="cart-details" class="cart-details">
@@ -46,13 +41,14 @@
             </div>  
           </div>
         </div>
-        <img src="images/image-avatar.png" alt="User" class="user-icon">
+        <div class="user-icon">
+          <img src="images/image-avatar.png" alt="User" >
+        </div>
       </div>
     </header>
     <div id="overlay"></div>
   
-    <main >
-
+    <main>
       <div class="product">
         <section class="product-image">
           <img src="images/image-product-1.jpg" alt="Sneakers" class="main-img">
@@ -123,13 +119,18 @@
             </div>
             <div class="button">
               <button class="add-to-cart" onclick="addToCart()">
-                <span><img src="images/icon-cart.svg" alt=""></span>Add to cart
+                <img src="images/icon-cart.svg" alt="Cart" class="icon">
+                <span class="text">Add to cart</span>
               </button>
             </div>
           </div>
-          
-          
-
+          <div id="checkout-popup" class="popup-overlay hidden">
+            <div class="popup-content">
+              <img src="images/car.svg" alt="" width="42" height="40">
+              <p>Thank you for your order! Your order will be dispatched to your address shortly.</p>
+              <button id="close-popup" >Oke</button>
+            </div>
+          </div>
         </section>
       </div>
     </main>

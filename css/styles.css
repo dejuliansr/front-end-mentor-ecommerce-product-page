@@ -18,7 +18,7 @@ body {
 
 .header {
   display: flex;
-  align-items: center;
+  align-items: center;;
   padding: 20px 0;
   border-bottom: 1px solid #eee;
 }
@@ -55,6 +55,9 @@ body {
 
 .icons {
   margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .cart-icon {
@@ -117,6 +120,7 @@ body {
 
 .cart-item {
   display: flex;
+  align-items: center;
   justify-content: space-between;
   padding: 10px;
   border-bottom: 1px solid #eaeaea;
@@ -124,7 +128,7 @@ body {
 
 .cart-item img {
   width: 50px;
-  height: auto;
+  height: 50px;
   margin-right: 10px;
 }
 
@@ -146,13 +150,13 @@ body {
   height: 20px;
 }
 
-.user-icon {
+.user-icon img {
   width: 40px;
   align-items: center;
   cursor: pointer;
 }
 
-.user-icon:hover {
+.user-icon:hover img {
   border: 3px solid hsl(26, 100%, 55%);
   border-radius: 50%;
 }
@@ -171,10 +175,12 @@ body {
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 100;
   display: none;
+  animation: blurToNormal 0.3s forwards;
 }
 
 .nav-menu.active ~ #overlay {
   display: block;
+  animation: blurToNormal 0.3s forwards;
 }
 
 .product {
@@ -185,6 +191,7 @@ body {
   gap: 100px;
   margin-top: 50px;
   flex-wrap: wrap;
+  /* animation: blurToNormal 0.3s forwards; */
 }
 
 .product-image {
@@ -253,6 +260,7 @@ body {
 .lightbox-product {
   width: 100%;
   max-width: 500px;
+  animation: blurToNormal 0.3s forwards;
 }
 
 .lightbox-img {
@@ -291,6 +299,7 @@ body {
   justify-content: space-between;
   margin-top: 20px;
   gap: 15px;
+  animation: blurToNormal 0.3s forwards;
 }
 
 .lightbox-thumb {
@@ -403,12 +412,10 @@ body {
   cursor: pointer;
   border-radius: 10px;
   width: 100%;
+  display: flex;
+  align-items: center;
   justify-content: center;
-}
-
-.add-to-cart span {
-  margin-right: 15px;
-  font-weight: 700;
+  gap: 10px;
 }
 
 .add-to-cart:hover,
@@ -420,7 +427,115 @@ body {
   display: none;
 }
 
-@media (max-width: 888px) {
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding: 20px;
+  animation: blurToNormal 0.3s forwards;
+}
+
+.popup-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+}
+.popup-content p {
+  margin-bottom: 20px;
+  font-size: 1.2em;
+}
+
+#close-popup {
+  padding: 10px 20px;
+  background: hsl(26, 100%, 55%);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#close-popup:hover {
+  background-color: hsl(25, 65%, 66%);
+}
+
+.hidden {
+  display: none;
+}
+
+/* Animasi untuk checkout-popup */
+@keyframes popupFadeIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes popupFadeOut {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+}
+
+/* Animasi untuk cart-dropdown saat dibuka */
+.cart-dropdown.active {
+  animation: popupFadeIn 0.3s ease-out;
+}
+
+/* Animasi untuk cart-dropdown saat ditutup */
+.cart-dropdown.closing {
+  animation: popupFadeOut 0.3s ease-out;
+}
+
+/* Animasi untuk overlay: blur ke normal */
+@keyframes blurToNormal {
+  from {
+    backdrop-filter: blur(10px);
+    opacity: 0;
+  }
+  to {
+    backdrop-filter: blur(0);
+    opacity: 1;
+  }
+}
+
+@keyframes normalToBlur {
+  from {
+    backdrop-filter: blur(0);
+    opacity: 1;
+  }
+  to {
+    backdrop-filter: blur(10px);
+    opacity: 0;
+  }
+}
+
+.popup-overlay.active {
+  animation: blurToNormal 0.3s forwards;
+}
+
+.popup-overlay.hidden {
+  animation: normalToBlur 0.3s forwards;
+}
+
+@media (max-width: 768px) {
   body {
     padding: 0;
     margin: 0;
@@ -469,6 +584,7 @@ body {
   .cart-dropdown {
     top: 50px;
     right: -55px;
+    min-width: 347px;
   }
 
   .product-image {
@@ -505,7 +621,7 @@ body {
   }
 
   .lightbox-img-mobile {
-    width: 390px;
+    width: 360px;
     height: auto;
     margin-top: -60px;
   }

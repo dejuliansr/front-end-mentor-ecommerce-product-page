@@ -39,17 +39,32 @@ const cartIcon = document.getElementById('cartIcon');
 const cartDropdown = document.getElementById('cartDropdown');
 
 cartIcon.addEventListener('click', () => {
-  if (cartDropdown.style.display === 'none' || cartDropdown.style.display === '') {
-    cartDropdown.style.display = 'block';
+  if (cartDropdown.classList.contains('active')) {
+    // Jika sudah aktif, tambah kelas 'closing' untuk animasi penutupan
+    cartDropdown.classList.add('closing');
+    
+    // Tunggu sampai animasi selesai, baru sembunyikan
+    setTimeout(() => {
+      cartDropdown.classList.remove('active');
+      cartDropdown.classList.remove('closing');
+      cartDropdown.style.display = 'none';
+    }, 300); // Tunggu selama durasi animasi
   } else {
-    cartDropdown.style.display = 'none';
+    // Jika tidak aktif, tampilkan dengan animasi pembukaan
+    cartDropdown.classList.add('active');
+    cartDropdown.style.display = 'block';
   }
 });
 
 // Close dropdown if clicked outside
 window.addEventListener('click', (e) => {
   if (!cartIcon.contains(e.target) && !cartDropdown.contains(e.target)) {
-    cartDropdown.style.display = 'none';
+    cartDropdown.classList.add('closing');
+    setTimeout(() => {
+      cartDropdown.classList.remove('active');
+      cartDropdown.classList.remove('closing');
+      cartDropdown.style.display = 'none';
+    }, 300); // Tunggu sampai animasi selesai
   }
 });
 
@@ -82,10 +97,10 @@ const lightboxMainImg = document.getElementById('lightbox-img');
 const lightboxMainImgMobile = document.getElementById('lightbox-img-mobile');
 const lightboxThumbs = document.querySelectorAll('.lightbox-thumb');
 const productImages = [
-  'https://github.com/dejuliansr/front-end-mentor-ecommerce-product-page/blob/master/images/image-product-1.jpg?raw=true',
-  'https://github.com/dejuliansr/front-end-mentor-ecommerce-product-page/blob/master/images/image-product-2.jpg?raw=true',
-  'https://github.com/dejuliansr/front-end-mentor-ecommerce-product-page/blob/master/images/image-product-3.jpg?raw=true',
-  'https://github.com/dejuliansr/front-end-mentor-ecommerce-product-page/blob/master/images/image-product-4.jpg?raw=true'
+  '../images/image-product-1.jpg',
+  '../images/image-product-2.jpg',
+  '../images/image-product-3.jpg',
+  '../images/image-product-4.jpg'
 ];
 let currentImageIndex = 0;
 const prevBtn = document.getElementById('prev-btn');
@@ -221,14 +236,14 @@ function updateCartDetails() {
       const li = document.createElement('li');
       li.innerHTML = `
         <div class="cart-item">
-          <img src="https://github.com/dejuliansr/front-end-mentor-ecommerce-product-page/blob/master/images/image-product-1.jpg?raw=true" alt="${item.name}">
+          <img src="../images/image-product-1.jpg" alt="${item.name}">
           <div class="item-details">
-            <span>${item.name}</span>
-            <span>$${item.price} x ${item.quantity} <span style="font-weight: 700;">$${(item.price * item.quantity).toFixed(2)}</span></span>
+            <span style="color: hsl(222, 7.00%, 63.30%); font-weight: 500;">${item.name}</span>
+            <span style="color: hsl(222, 7.00%, 63.30%); font-weight: 500;">$${item.price} x ${item.quantity} <span style="font-weight: 700; color:black;">$${(item.price * item.quantity).toFixed(2)}</span></span>
 
           </div>
           <button class="remove-item" onclick="removeItem('${item.name}')">
-            <img src="https://raw.githubusercontent.com/dejuliansr/front-end-mentor-ecommerce-product-page/0fc43f451abd98226bd314d4bf7f08399476c5b2/images/icon-delete.svg" alt="delete">
+            <img src="../images/icon-delete.svg" alt="delete">
           </button>
         </div>
       `;
@@ -274,3 +289,26 @@ function removeItem(productName) {
     }
   }
 }
+
+const checkoutBtn = document.querySelector('.checkout-btn');
+const checkoutPopup = document.getElementById('checkout-popup');
+const closePopupBtn = document.getElementById('close-popup');
+
+checkoutBtn.addEventListener('click', () => {
+  checkoutPopup.classList.add('active');
+  if (cart.length > 0) { // Pastikan keranjang tidak kosong
+    checkoutPopup.classList.remove('hidden'); // Tampilkan pop-up
+  }
+  // Kosongkan keranjang
+  cart = [];
+  cartCount = 0;
+  cartTotal = 0;
+
+  // Perbarui tampilan keranjang
+  updateCartDetails();
+});
+
+// Event listener untuk tombol tutup pop-up
+closePopupBtn.addEventListener('click', () => {
+  checkoutPopup.classList.add('hidden'); // Sembunyikan pop-up
+});
