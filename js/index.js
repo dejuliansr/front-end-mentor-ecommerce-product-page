@@ -71,43 +71,63 @@ window.addEventListener('click', (e) => {
 // Mengubah gambar utama ketika thumbnail diklik
 const thumbs = document.querySelectorAll('.thumb');
 const mainImg = document.querySelector('.main-img');
+let currentIndex = 0;
+
 thumbs[0].classList.add('active');
 
+thumbs.forEach((thumb, index) => {
+  thumb.addEventListener('click', (event) => {
+    event.stopPropagation(); // Hentikan event bubbling agar tidak memicu event lain
 
-thumbs.forEach(thumb => {
-  thumb.addEventListener('click', () => {
-    // Hapus class 'active' dari thumbnail yang sebelumnya dipilih
+    if (index === currentIndex) return; // Hindari animasi jika gambar yang sama diklik
+
     const activeThumb = document.querySelector('.thumb.active');
-    if (activeThumb) {
-      activeThumb.classList.remove('active');
-    }
-
-    // Tambahkan class 'active' ke thumbnail yang diklik
+    if (activeThumb) activeThumb.classList.remove('active');
     thumb.classList.add('active');
 
-    // Ganti gambar utama dengan gambar thumbnail yang dipilih
-    mainImg.src = thumb.src; // Gunakan src thumbnail untuk gambar utama
+    // Tentukan arah swipe
+    const direction = index > currentIndex ? "right" : "left";
+    const exitClass = direction === "right" ? "exit-left" : "exit-right";
+    const enterClass = direction === "right" ? "enter-right" : "enter-left";
+    
+    // Tambahkan animasi keluar
+    mainImg.classList.add(exitClass);
+
+    setTimeout(() => {
+      // Ganti gambar setelah animasi keluar
+      mainImg.src = thumb.src;
+
+      // Hapus class animasi keluar dan tambahkan animasi masuk
+      mainImg.classList.remove(exitClass);
+      mainImg.classList.add(enterClass);
+
+      setTimeout(() => {
+        mainImg.classList.remove(enterClass);
+      }, 500); // Sesuai durasi animasi CSS
+    }, 300);
+
+    currentIndex = index;
   });
 });
 
 const lightbox = document.getElementById('lightbox');
 const lightboxImg = document.getElementById('lightbox-img');
+const lightboxImgMobile = document.getElementById('lightbox-img-mobile');
 const lightboxClose = document.getElementById('lightbox-close');
-const lightboxMainImg = document.getElementById('lightbox-img');
-const lightboxMainImgMobile = document.getElementById('lightbox-img-mobile');
 const lightboxThumbs = document.querySelectorAll('.lightbox-thumb');
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+const prevBtnMobile = document.getElementById('prev-btn-mobile');
+const nextBtnMobile = document.getElementById('next-btn-mobile');
+
 const productImages = [
   'https://github.com/dejuliansr/front-end-mentor-ecommerce-product-page/blob/master/images/image-product-1.jpg?raw=true',
   'https://github.com/dejuliansr/front-end-mentor-ecommerce-product-page/blob/master/images/image-product-2.jpg?raw=true',
   'https://github.com/dejuliansr/front-end-mentor-ecommerce-product-page/blob/master/images/image-product-3.jpg?raw=true',
   'https://github.com/dejuliansr/front-end-mentor-ecommerce-product-page/blob/master/images/image-product-4.jpg?raw=true'
 ];
+
 let currentImageIndex = 0;
-const prevBtn = document.getElementById('prev-btn');
-const nextBtn = document.getElementById('next-btn');
-const prevBtnMobile = document.getElementById('prev-btn-mobile');
-const nextBtnMobile = document.getElementById('next-btn-mobile');
-lightboxThumbs[0].classList.add('active');
 
 // Event listener untuk menampilkan lightbox ketika gambar produk diklik
 productImage.addEventListener('click', () => {
@@ -120,64 +140,70 @@ lightboxClose.addEventListener('click', () => {
   lightbox.style.display = 'none';
 });
 
-// Fungsi untuk mengganti gambar utama di lightbox ketika thumbnail diklik
-lightboxThumbs.forEach((thumb, index) => {
-  thumb.addEventListener('click', () => {
-    // Hapus kelas active dari semua thumbnail
-    lightboxThumbs.forEach(t => t.classList.remove('active'));
-    
-    // Tambahkan kelas active pada thumbnail yang diklik
-    thumb.classList.add('active');
-    
-    // Perbarui gambar lightbox dengan gambar yang sesuai
+function updateLightboxImage(index, direction) {
+  if (index < 0) index = productImages.length - 1;
+  if (index >= productImages.length) index = 0;
+
+  // Hapus class 'active' dari thumbnail yang sedang aktif
+  const activeThumb = document.querySelector('.lightbox-thumb.active');
+  if (activeThumb) activeThumb.classList.remove('active');
+
+  // Tambahkan class 'active' pada thumbnail baru
+  lightboxThumbs[index].classList.add('active');
+
+  const exitClass = direction === 'right' ? 'exit-left' : 'exit-right';
+  const enterClass = direction === 'right' ? 'enter-right' : 'enter-left';
+
+  lightboxImg.classList.add(exitClass);
+
+  setTimeout(() => {
     lightboxImg.src = productImages[index];
-  });
-});
 
-// Fungsi untuk memperbarui gambar utama berdasarkan index
-function updateLightboxImage(index) {
-  lightboxMainImg.src = productImages[index];
+    // Hapus animasi keluar dan tambahkan animasi masuk
+    lightboxImg.classList.remove(exitClass);
+    lightboxImg.classList.add(enterClass);
 
-  // Hapus class 'active' dari thumbnail yang sebelumnya dipilih
-  document.querySelector('.lightbox-thumb.active')?.classList.remove('active');
-  
-  // Tambahkan class 'active' ke thumbnail yang sesuai dengan gambar utama
-  lightboxThumbs[index].classList.add('active');
+    setTimeout(() => {
+      lightboxImg.classList.remove(enterClass);
+    }, 500);
+  }, 300);
+
+  currentImageIndex = index;
 }
 
-function updateLightboxImageMobile(index) {
-  lightboxMainImgMobile.src = productImages[index];
 
-  // Hapus class 'active' dari thumbnail yang sebelumnya dipilih
-  document.querySelector('.lightbox-thumb.active')?.classList.remove('active');
-  
-  // Tambahkan class 'active' ke thumbnail yang sesuai dengan gambar utama
-  lightboxThumbs[index].classList.add('active');
+// Fungsi untuk mengganti gambar utama di lightbox (versi mobile) dengan animasi
+function updateLightboxImageMobile(index, direction) {
+  if (index < 0) index = productImages.length - 1;
+  if (index >= productImages.length) index = 0;
+
+  const exitClass = direction === 'right' ? 'exit-left' : 'exit-right';
+  const enterClass = direction === 'right' ? 'enter-right' : 'enter-left';
+
+  lightboxImgMobile.classList.add(exitClass);
+
+  setTimeout(() => {
+    lightboxImgMobile.src = productImages[index];
+
+    lightboxImgMobile.classList.remove(exitClass);
+    lightboxImgMobile.classList.add(enterClass);
+
+    setTimeout(() => {
+      lightboxImgMobile.classList.remove(enterClass);
+    }, 500);
+  }, 300);
+
+  currentImageIndex = index;
 }
 
-// Event listener untuk tombol Previous
-prevBtn.addEventListener('click', () => {
-  currentImageIndex = (currentImageIndex === 0) ? productImages.length - 1 : currentImageIndex - 1;
-  updateLightboxImage(currentImageIndex);
-});
+// Event listener untuk tombol Previous dan Next (desktop)
+prevBtn.addEventListener('click', () => updateLightboxImage(currentImageIndex - 1, 'left'));
+nextBtn.addEventListener('click', () => updateLightboxImage(currentImageIndex + 1, 'right'));
 
-// Event listener untuk tombol Next
-nextBtn.addEventListener('click', () => {
-  currentImageIndex = (currentImageIndex === productImages.length - 1) ? 0 : currentImageIndex + 1;
-  updateLightboxImage(currentImageIndex);
-});
+// Event listener untuk tombol Previous dan Next (mobile)
+prevBtnMobile.addEventListener('click', () => updateLightboxImageMobile(currentImageIndex - 1, 'left'));
+nextBtnMobile.addEventListener('click', () => updateLightboxImageMobile(currentImageIndex + 1, 'right'));
 
-// Event listener untuk tombol Previous mobile
-prevBtnMobile.addEventListener('click', () => {
-  currentImageIndex = (currentImageIndex === 0) ? productImages.length - 1 : currentImageIndex - 1;
-  updateLightboxImageMobile(currentImageIndex);
-});
-
-// Event listener untuk tombol Next mobile
-nextBtnMobile.addEventListener('click', () => {
-  currentImageIndex = (currentImageIndex === productImages.length - 1) ? 0 : currentImageIndex + 1;
-  updateLightboxImageMobile(currentImageIndex);
-});
 
 
 let cart = [];

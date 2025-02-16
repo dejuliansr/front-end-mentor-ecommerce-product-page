@@ -198,6 +198,41 @@ body {
   width: 100%;
   max-width: 400px;
   cursor: pointer;
+  overflow: hidden;
+}
+
+.enter-left {
+  transform: translateX(-100%);
+  opacity: 0;
+  animation: fadeInLeft 0.5s forwards;
+}
+
+.enter-right {
+  transform: translateX(100%);
+  opacity: 0;
+  animation: fadeInRight 0.5s forwards;
+}
+
+@keyframes fadeInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 .main-img {
@@ -277,7 +312,7 @@ body {
   padding: 10px;
   border-radius: 50%;
   cursor: pointer;
-  z-index: 11;
+  z-index: 21;
   user-select: none;
 }
 
@@ -287,11 +322,11 @@ body {
 }
 
 .prev-btn {
-  margin-left: -20px;
+  margin-left: 0px;
 }
 
 .next-btn {
-  margin-left: -10px;
+  margin-left: -34px;
 }
 
 .lightbox-thumbnail-gallery {
